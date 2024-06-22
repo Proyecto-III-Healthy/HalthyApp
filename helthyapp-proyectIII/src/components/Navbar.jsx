@@ -48,7 +48,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <div className="d-flex">
+        <div className="container-fluid d-flex">
           <ul className="navbar-nav">
             <li className="nav-item">
               {user && (
