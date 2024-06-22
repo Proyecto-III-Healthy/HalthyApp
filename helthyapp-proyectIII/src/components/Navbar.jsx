@@ -48,9 +48,18 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <div>
+        <div className="d-flex">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              {user && (
+                <Link className="nav-link" aria-current="page" to="/profile">
+                  Profile
+                </Link>
+              )}
+            </li>
+          </ul>
           {user && (
-            <button onClick={logout} className="btn btn-danger">
+            <button onClick={logout} className="btn btn-danger ms-2">
               Logout
             </button>
           )}
