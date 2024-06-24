@@ -25,7 +25,7 @@ const Register = () => {
     // Handle form completion logic here
 
     createUser(user)
-      .then((user) => {
+      .then(() => {
         navigate("/login");
       })
       .catch((err) => console.error(err));
