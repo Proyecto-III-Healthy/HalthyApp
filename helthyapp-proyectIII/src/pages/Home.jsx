@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { createChat } from "../services/ChatService";
 import { AuthContext } from "../contexts/AuthContext";
 import { getRecepies } from "../services/RecepiesService";
+import { PacmanLoader } from "react-spinners";
 
 const INGREDIENTS_VALUES = [
   {
@@ -20,6 +21,8 @@ const Home = () => {
   const { user } = useContext(AuthContext);
   const [ingredients, setIngredients] = useState([]);
   const [recepies, setRecepies] = useState([]);
+  const [recepiesApi, setRecepiesApi] = useState(null);
+  const [loadingApi, setLoadingApi] = useState(false);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
@@ -38,9 +41,14 @@ const Home = () => {
   }, []);
 
   const filteredRecepies = recepies.filter((recepi) => {
-    return recepi.name.includes(search);
+    return (
+      recepi.name.toLowerCase().includes(search.toLowerCase()) ||
+      recepi.ingredients.find((ingredient) =>
+        ingredient.toLowerCase().includes(search.toLowerCase())
+      )
+    );
   });
-  console.log(filteredRecepies);
+
   const handleIngredient = (e) => {
     const { value } = e.target;
     if (ingredients.includes(value)) {
@@ -59,12 +67,16 @@ const Home = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+
+    setLoadingApi(true);
     createChat(ingredients)
-      .then((recepiesApi) => {
-        setRecepies(recepiesApi);
+      .then((recepiesApiRes) => {
+        setRecepiesApi(recepiesApiRes);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => setLoadingApi(false));
   };
+  console.log(filteredRecepies);
 
   return (
     <div className="container mt-5">
@@ -72,10 +84,24 @@ const Home = () => {
       <input
         className="form-control me-2 mb-3"
         type="search"
-        placeholder="Escribe aquí los ingresdientes"
+        placeholder="Escribe aquí los ingredientes"
         aria-label="Search"
         onChange={handleSearchInput}
       />
+      {loadingApi ? (
+        <PacmanLoader />
+      ) : (
+        <h3>
+          Receta API:
+          {/* <div
+            dangerouslySetInnerHTML={{
+              __html: `<body> <header> <h1>Arroz con Pollo</h1> </header> <section> <h2>Ingredientes</h2> <ul> <li>1 kg de pollo, cortado en piezas</li> <li>2 tazas de arroz</li> <li>4 tazas de caldo de pollo</li> <li>1 cebolla grande, picada</li> <li>1 pimiento verde, picado</li> <li>2 dientes de ajo, picados</li> <li>1/2 taza de guisantes</li> <li>1/2 taza de zanahorias cortadas en cubos</li> <li>1/4 de taza de aceite de oliva</li> <li>1 cucharadita de pimentón dulce</li> <li>Sal y pimienta al gusto</li> </ul> </section> <section> <h2>Preparación</h2> <ol> <li>Calienta el aceite en una cazuela grande a fuego medio-alto.</li> <li>Añade el pollo y fríelo hasta que esté dorado por todos lados. Retira el pollo y reserva.</li> <li>En la misma cazuela, añade la cebolla, el pimiento verde y el ajo, y sofríe hasta que estén blandos.</li> <li>Incorpora el arroz y fríe un par de minutos para que se mezclen los sabores.</li> <li>Agrega el caldo de pollo, el pimentón, la sal y la pimienta. Lleva a ebullición.</li> <li>Reduce el fuego, vuelve a añadir el pollo, y cocina cubierto durante 20 minutos.</li> <li>Añade los guisantes y las zanahorias. Cocina 10 minutos más o hasta que el arroz esté cocido y el líquido se haya absorbido.</li> </ol> </section> <footer> <p>Receta proporcionada por <a href="https://www.example.com">example.com</a></p> </footer> </body> `,
+            }}
+          ></div> */}
+          {recepiesApi?.choices[0].message.content}
+        </h3>
+      )}
+
       {user && (
         <form onSubmit={onSubmit}>
           {INGREDIENTS_VALUES.map((ingredient) => (
@@ -94,7 +120,9 @@ const Home = () => {
               {ingredient.text}
             </button>
           ))}
-          <button type="submit">Enviar</button>
+          <button type="submit" className="btn btn-danger">
+            Enviar
+          </button>
         </form>
       )}
       {loading ? (
