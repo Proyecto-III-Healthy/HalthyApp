@@ -11,7 +11,7 @@ const Navbar = () => {
       data-bs-theme="dark"
     >
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+        <Link className="navbar-brand" to="/" style={{ color: '#83A580' }}>
           Healthy App
         </Link>
         <button
@@ -22,6 +22,7 @@ const Navbar = () => {
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
+          style={{ borderColor: '#83A580' }} 
         >
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -59,7 +60,7 @@ const Navbar = () => {
             </li>
           </ul>
           {user && (
-            <button onClick={logout} className="btn btn-danger ms-2">
+            <button onClick={logout} className="btn btn-custom ms-2">
               Logout
             </button>
           )}

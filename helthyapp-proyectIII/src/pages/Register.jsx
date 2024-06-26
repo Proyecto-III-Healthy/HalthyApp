@@ -38,7 +38,8 @@ const Register = () => {
     <>
       <FormWizard
         shape="circle"
-        color="#e74c3c"
+        color="#83A580"
+        style={{ borderColor: "#83A580" }}
         onComplete={handleComplete}
         onSubmit={handleComplete}
         onTabChange={tabChanged}
@@ -87,7 +88,6 @@ const Register = () => {
           <p>Some content for the last tab</p>
         </FormWizard.TabContent>
       </FormWizard>
-      {/* add style */}
       <style>{`
         @import url("https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css");
       `}</style>
