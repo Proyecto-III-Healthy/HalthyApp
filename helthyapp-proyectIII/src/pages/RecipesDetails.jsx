@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getRecipe } from "../services/RecipesService";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PacmanLoader } from "react-spinners";
+import "../index.css";
 
 //import { parseDate } from "../../public/utils";
 
@@ -29,32 +30,34 @@ function RecipeDetails() {
   };
 
   if (loading) {
-    return (
-      <PacmanLoader />
-      //<div className="spinner-border" role="status">
-      // <span className="visually-hidden">Loading...</span>
-      //</div>
-    );
+    return <PacmanLoader />;
   }
 
   return (
     <>
-      <h1 className="mb-5">Recipe details</h1>
-      <img
-        src={recipe.urlImage}
-        className="img-thumbnail mb-5"
-        width={200}
-        alt={recipe.img}
-      ></img>
-      <div className="card text-center">
-        <div className="card-header">Details</div>
-        <div className="card-body">
-          <h5 className="card-title">{recipe.name}</h5>
-          <Link to="/" className="btn btn-primary mx-2">
-            Go back
-          </Link>
-          
-        </div>
+      <div className="container mt-5">
+        <h1>{recipe.name}</h1>
+        <p>{recipe.phrase}</p>
+
+        <h3 className="mb-3"><u>Tiempo de preparación</u> {recipe.preparationTime}minutos</h3>
+
+        <h3><u>Ingredientes</u>({recipe.people}personas)</h3>
+        <ul className="custom-list">
+        {recipe.ingredients.map((ingredient) => (
+            <li>
+              {ingredient}
+            </li>
+          ))}
+        </ul>
+
+        <h3><u>Elaboración</u></h3>
+        <ul className="custom-list">
+        {recipe.steps.map((step, i) => (
+            <li key={i}>
+              <strong>Paso {i + 1}:</strong> {step}
+            </li>
+          ))}
+        </ul>
         
       </div>
     </>

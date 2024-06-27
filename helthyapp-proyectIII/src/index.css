@@ -30,3 +30,24 @@
 .scroll-to-top.show {
     display: block;
 }
+.custom-list {
+    list-style: none; 
+    padding: 0;
+  }
+  
+  .custom-list li {
+    position: relative;
+    padding-left: 25px; 
+    margin-bottom: 10px; 
+  }
+  
+  .custom-list li::before {
+    content: '•'; 
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #83A580; 
+    font-size: 30px; 
+    line-height: 0.7; 
+  }
+  
