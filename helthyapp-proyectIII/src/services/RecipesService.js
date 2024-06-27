@@ -9,3 +9,6 @@ export const getRecipes = () => {
 export const getRecipe = (id) => {
   return http.get(`/recipes/${id}`);
 };
+export const toggleFavorite = (id) => {
+  return http.put(`/recipes/${id}/favorite`);
+};
