@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home";
+import CalendarPage from "./pages/CalendarPage";
 import RecipeDetails from "./pages/RecipesDetails";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/calendar" element={<CalendarPage />} />
 
         <Route path="/recipes/:id" element={<RecipeDetails />} />
 
