@@ -45,7 +45,6 @@ const Register = () => {
         onTabChange={tabChanged}
       >
         <FormWizard.TabContent title="Personal details" icon="ti-user">
-          {/* Add your form inputs and components for the frst step */}
           <h1>First Tab</h1>
           <p>Some content for the first tab</p>
           <Input
