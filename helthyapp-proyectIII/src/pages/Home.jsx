@@ -5,6 +5,7 @@ import { getRecipes } from "../services/RecipesService";
 import { PacmanLoader } from "react-spinners";
 import "../index.css";
 import { Link } from "react-router-dom";
+import PacmanLoading from "../components/PacmanLoading/PacmanLoading";
 
 const INGREDIENTS_VALUES = [
   {
@@ -105,7 +106,7 @@ const Home = () => {
         onChange={handleSearchInput}
       />
       {loadingApi ? (
-        <PacmanLoader />
+        <PacmanLoading />
       ) : (
         <h3>
           Receta API:
@@ -140,7 +141,7 @@ const Home = () => {
         </form>
       )}
       {loading ? (
-        <p>loading...</p>
+        <PacmanLoading />
       ) : (
         filteredRecipes.map((recipe) => (
           <div

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getRecipe } from "../services/RecipesService";
+import { getRecipe, toggleFavorite } from "../services/RecipesService";
 import { useNavigate, useParams } from "react-router-dom";
 import { PacmanLoader } from "react-spinners";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import "../index.css";
+import PacmanLoading from "../components/PacmanLoading/PacmanLoading";
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -47,10 +48,13 @@ function RecipeDetails() {
 
   const handleToggleFavorite = () => {
     setIsFavorite(!isFavorite);
+    toggleFavorite(id)
+      .then((recipeDB) => setRecipe(recipeDB))
+      .catch((e) => console.log(e));
   };
 
   if (loading) {
-    return <PacmanLoader />;
+    return <PacmanLoading />;
   }
 
   return (
