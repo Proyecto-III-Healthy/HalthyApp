@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home";
+import CalendarPage from "./pages/CalendarPage";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-
+        <Route path="/calendar" element={<CalendarPage />} />
         <Route
           path="/profile"
           element={
