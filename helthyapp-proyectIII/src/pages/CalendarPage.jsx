@@ -92,6 +92,7 @@ const CalendarPage = () => {
         endAccessor="end"
         style={{ height: 500, margin: "50px" }}
         culture="es"
+        
       />
     </div>
   );

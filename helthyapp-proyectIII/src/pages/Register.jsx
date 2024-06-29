@@ -8,9 +8,11 @@ import { useNavigate } from "react-router-dom";
 const Register = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({
+    name: "",
     email: "",
     password: "",
     gender: "",
+    weight: "",
   });
 
   const handleInputChange = (event) => {
@@ -44,9 +46,15 @@ const Register = () => {
         onSubmit={handleComplete}
         onTabChange={tabChanged}
       >
-        <FormWizard.TabContent title="Personal details" icon="ti-user">
-          <h1>First Tab</h1>
-          <p>Some content for the first tab</p>
+        <FormWizard.TabContent title="Detalles personales" icon="ti-user">
+          <h2>Tus datos</h2>
+          <Input
+            value={user.name}
+            onChange={handleInputChange}
+            name="name"
+            type="name"
+            title="Nombre"
+          />
           <Input
             value={user.email}
             onChange={handleInputChange}
@@ -59,16 +67,8 @@ const Register = () => {
             onChange={handleInputChange}
             name="password"
             type="password"
-            title="Password"
+            title="Contraseña"
           />
-        </FormWizard.TabContent>
-        <FormWizard.TabContent title="Additional Info" icon="ti-settings">
-          <h1>Second Tab</h1>
-          <p>Some content for the second tab</p>
-        </FormWizard.TabContent>
-        <FormWizard.TabContent title="Additional Prueba" icon="ti-settings">
-          <h1>Third Tab</h1>
-          <p>Some content for the second tab</p>
           <select
             className="form-select"
             aria-label="Default select example"
@@ -76,11 +76,48 @@ const Register = () => {
             value={user.gender}
             onChange={handleInputChange}
           >
-            <option selected>Género</option>
+            <option selected>Selecciona el género</option>
             <option value="masculino">Masculino</option>
             <option value="femenino">Femenino</option>
             <option value="otro">Otro</option>
           </select>
+        </FormWizard.TabContent>
+        <FormWizard.TabContent title="Más información" icon="ti-heart">
+          <h2>Objetivo</h2>
+          <p>Información para tu plan de ejercicios</p>
+          <Input
+            value={user.weight}
+            onChange={handleInputChange}
+            name="weight"
+            type="weight"
+            title="Tu peso"
+            placeholder="En kilogramos"
+          />
+          <Input
+            value={user.height}
+            onChange={handleInputChange}
+            name="height"
+            type="height"
+            title="Tu altura"
+            placeholder="En centimetros"
+          />
+          <label htmlFor="gender" className="form-label">Cual es tu objetivo principal</label>
+          <select
+            className="form-select"
+            aria-label="Default select example"
+            name="gender"
+            value={user.gender}
+            onChange={handleInputChange}
+          >
+            <option selected>Elige tu objetivo</option>
+            <option value="Comer equilibrado">Comer equilibrado</option>
+            <option value="Perder peso">Perder peso</option>
+            <option value="Ganar musculo">Ganar musculo</option>
+          </select>
+        </FormWizard.TabContent>
+        <FormWizard.TabContent title="Additional Prueba" icon="ti-star">
+          <h1>Third Tab</h1>
+          <p>Some content for the second tab</p>
         </FormWizard.TabContent>
         <FormWizard.TabContent title="Last step" icon="ti-check">
           <h1>Last Tab</h1>
