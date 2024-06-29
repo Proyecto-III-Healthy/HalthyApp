@@ -1,7 +1,11 @@
 import createHttp from "./BaseService";
 
-const http = createHttp(true);
+const http = createHttp(); 
 
 export const getCurrentUserService = () => {
-  return http.get("/users/me");
+  return http.get("/users/me", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}` 
+    }
+  });
 };

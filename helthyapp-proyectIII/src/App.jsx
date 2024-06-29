@@ -6,6 +6,7 @@ import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home";
 import CalendarPage from "./pages/CalendarPage";
+import RecipeDetails from "./pages/RecipesDetails";
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/calendar" element={<CalendarPage />} />
+
+        <Route path="/recipes/:id" element={<RecipeDetails />} />
+
         <Route
           path="/profile"
           element={

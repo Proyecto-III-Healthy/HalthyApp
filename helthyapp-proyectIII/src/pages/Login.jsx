@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { loginService } from "../services/UserService";
 import { AuthContext } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
+import "../index.css"; 
 
 const Login = () => {
   const { login, user: currentUser } = useContext(AuthContext);
@@ -54,6 +55,8 @@ const Login = () => {
             id="email"
             required
             placeholder="Add a email..."
+            style={{ borderColor: "#83A580" }}
+
           />
         </div>
 
@@ -70,10 +73,11 @@ const Login = () => {
             id="password"
             required
             placeholder="Add a password..."
+            style={{ borderColor: "#83A580" }}
           />
         </div>
         {error && <p className="text-danger">{error.message}</p>}
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-custom">
           Login
         </button>
       </form>
