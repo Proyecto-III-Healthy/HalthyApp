@@ -108,10 +108,10 @@ const Home = () => {
       {loadingApi ? (
         <PacmanLoading />
       ) : (
-        <h3>
+        user && (<h3>
           Receta API:
-          {recipesApi?.choices[0].message.content}
-        </h3>
+          {recipesApi?.createdRecipe.name}
+        </h3>)
       )}
 
       {user && (

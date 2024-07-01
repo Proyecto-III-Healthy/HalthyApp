@@ -13,6 +13,11 @@ const Register = () => {
     password: "",
     gender: "",
     weight: "",
+    height: "",
+    objetive: "",
+    ability: "",
+    typeDiet: "",
+    alergic: "",
   });
 
   const handleInputChange = (event) => {
@@ -82,7 +87,7 @@ const Register = () => {
             <option value="otro">Otro</option>
           </select>
         </FormWizard.TabContent>
-        <FormWizard.TabContent title="Más información" icon="ti-heart">
+        <FormWizard.TabContent title="Plan de ejercicios" icon="ti-heart">
           <h2>Objetivo</h2>
           <p>Información para tu plan de ejercicios</p>
           <Input
@@ -101,23 +106,65 @@ const Register = () => {
             title="Tu altura"
             placeholder="En centimetros"
           />
-          <label htmlFor="gender" className="form-label">Cual es tu objetivo principal</label>
+          <label htmlFor="objetive" className="form-label">¿Cuál es tu objetivo principal?</label>
           <select
             className="form-select"
             aria-label="Default select example"
-            name="gender"
-            value={user.gender}
+            name="objetive"
+            value={user.objetive}
             onChange={handleInputChange}
           >
             <option selected>Elige tu objetivo</option>
-            <option value="Comer equilibrado">Comer equilibrado</option>
-            <option value="Perder peso">Perder peso</option>
-            <option value="Ganar musculo">Ganar musculo</option>
+            <option value="comer equilibrado">Comer equilibrado</option>
+            <option value="perder peso">Perder peso</option>
+            <option value="ganar músculo">Ganar músculo</option>
           </select>
         </FormWizard.TabContent>
-        <FormWizard.TabContent title="Additional Prueba" icon="ti-star">
-          <h1>Third Tab</h1>
-          <p>Some content for the second tab</p>
+        <FormWizard.TabContent title="Plan de alimentación" icon="ti-star">
+          <h1>Tu Dieta</h1>
+          <p>Información para tu dieta</p>
+          <select
+            className="form-select mb-4"
+            aria-label="Default select example"
+            name="ability"
+            value={user.ability}
+            onChange={handleInputChange}
+          >
+            <option selected>Tu habilidad en la cocina</option>
+            <option value="bajo">Bajo: El colacao cuenta como cocinar</option>
+            <option value="medio">Medio: Las lentejas no se me queman</option>
+            <option value="avanzado">Avanzado: David muñoz a mi lado es un mindundi</option>
+          </select>
+          <select
+            className="form-select mb-4"
+            aria-label="Default select example"
+            name="typeDiet"
+            value={user.typeDiet}
+            onChange={handleInputChange}
+          >
+            <option selected>Tipo de dieta</option>
+            <option value="omnivoro">Omnivoro: como carne y casi todo</option>
+            <option value="flexitariano">Flexitariano: no excluyo la carne del todo </option>
+            <option value="vegetariano">Vegetariano</option>
+            <option value="vegano">Vegano</option>
+            <option value="otra">Otra</option>
+          </select>
+          <label htmlFor="objetive" className="form-label">¿Eres alérgico o intelerante a algún alimento?</label>
+          <select
+            className="form-select mb-4"
+            aria-label="Default select example"
+            name="alergic"
+            value={user.alergic}
+            onChange={handleInputChange}
+          >
+            <option selected>Tipo de alimento</option>
+            <option value="ninguno">Ninguno</option>
+            <option value="huevo">Huevo</option>
+            <option value="marisco">Marisco</option>
+            <option value="lactosa">Lactosa</option>
+            <option value="gluten">Gluten</option>
+            <option value="frutos secos">Frutos secos</option>
+          </select>
         </FormWizard.TabContent>
         <FormWizard.TabContent title="Last step" icon="ti-check">
           <h1>Last Tab</h1>
