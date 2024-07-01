@@ -59,18 +59,8 @@ function RecipeDetails() {
 
   return (
     <div className="container mt-5">
-      <div style={{ textAlign: "center" }}>
-        <h1
-          style={{
-            textAlign: "center",
-            backgroundColor: "transparent",
-            padding: "10px",
-            boxShadow: "0 0 10px #83A580",
-            display: "inline-block",
-          }}
-        >
-          {recipe.name}
-        </h1>
+    <div style={{ textAlign: "center" }}>
+      <h2 className="h2">{recipe.name}</h2>
       </div>
       <img
         src="https://content.elmueble.com/medio/2023/03/31/croquetas-de-queso-y-calabacin_00000000_230821131907_600x802.jpg"
