@@ -2,23 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import { createChat } from "../services/ChatService";
 import { AuthContext } from "../contexts/AuthContext";
 import { getRecipes } from "../services/RecipesService";
-import { PacmanLoader } from "react-spinners";
+
 import "../index.css";
 import { Link } from "react-router-dom";
 import PacmanLoading from "../components/PacmanLoading/PacmanLoading";
 
-const INGREDIENTS_VALUES = [
-  {
-    text: "Arroz",
-    value: "arroz",
-    icon: "fa-bowl-rice",
-  },
-  {
-    text: "Pollo",
-    value: "pollo",
-    icon: "fa-drumstick-bite",
-  },
-];
+import { INGREDIENTS_VALUES } from "../utils/ingredientsButtons";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
@@ -108,36 +97,53 @@ const Home = () => {
       {loadingApi ? (
         <PacmanLoading />
       ) : (
-        user && (<h3>
-          Receta API:
-          {recipesApi?.createdRecipe.name}
-        </h3>)
+        user && (
+          <h3>
+            Receta API:
+            {recipesApi?.createdRecipe.name}
+          </h3>
+        )
       )}
 
       {user && (
         <form
           onSubmit={onSubmit}
-          style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}
+          style={{ display: "flex", flexWrap: "wrap", gap: "10px", justifyContent: "center" }}
         >
-          {INGREDIENTS_VALUES.map((ingredient) => (
-            <button
-              key={ingredient.value}
-              type="button"
-              className="btn btn-custom"
-              value={ingredient.value}
-              onClick={handleIngredient}
-            >
-              {!ingredients.includes(ingredient.value) ? (
-                <i className={`fa-solid ${ingredient.icon}`}></i>
-              ) : (
-                <i className="fa-solid fa-check"></i>
-              )}{" "}
-              {ingredient.text}
-            </button>
-          ))}
-          <button type="submit" className="btn btn-custom">
-            Enviar
-          </button>
+          {INGREDIENTS_VALUES.map((ingredient) => {
+            const IconComponent = ingredient.iconComponent;
+            return (
+              <button
+                key={ingredient.value}
+                type="button"
+                className="btn btn-custom"
+                value={ingredient.value}
+                onClick={handleIngredient}
+              >
+                {!ingredients.includes(ingredient.value) ? (
+                  IconComponent ? (
+                    <IconComponent />
+                  ) : (
+                    <i className={`fa-solid ${ingredient.icon}`}></i>
+                  )
+                ) : (
+                  <i className="fa-solid fa-check"></i>
+                )}{" "}
+                {ingredient.text}
+              </button>
+            );
+          })}
+          <div className="row w-100 btn-lg">
+            <div className="col d-flex justify-content-center mt-3">
+              <button
+                type="submit"
+                className="btn btn-custom btn-lg px-5"
+                style={{ borderColor: "#00ff6a", color: "rgb(3 120 114)" }}
+              >
+                Enviar
+              </button>
+            </div>
+          </div>
         </form>
       )}
       {loading ? (
@@ -145,7 +151,7 @@ const Home = () => {
       ) : (
         filteredRecipes.map((recipe) => (
           <div
-            className="card mb-3"
+            className="card mb-3 mt-5"
             style={{ maxWidth: "540px" }}
             key={recipe._id}
           >
