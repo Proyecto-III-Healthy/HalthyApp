@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createUser } from "../services/UserService";
 import Input from "../components/Input/Input";
 import FormWizard from "react-form-wizard-component";
@@ -20,6 +20,8 @@ const Register = () => {
     alergic: "",
   });
 
+  const [isLastStep, setIsLastStep] = useState(false);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUser({
@@ -29,18 +31,40 @@ const Register = () => {
   };
 
   const handleComplete = () => {
-    // Handle form completion logic here
-
     createUser(user)
       .then(() => {
         navigate("/login");
       })
       .catch((err) => console.error(err));
   };
+
   const tabChanged = ({ prevIndex, nextIndex }) => {
     console.log("prevIndex", prevIndex);
     console.log("nextIndex", nextIndex);
+    setIsLastStep(nextIndex === 4); // Aquí '3' es el índice de la última pestaña
   };
+
+  useEffect(() => {
+    const translateButtons = () => {
+      const backButton = document.querySelector(".wizard-footer-left .wizard-btn");
+      const nextButton = document.querySelector(".wizard-footer-right .wizard-btn");
+      const completeButton = document.querySelector(".wizard-complete .wizard-btn");
+
+      if (backButton) backButton.textContent = "Atrás";
+      if (nextButton) nextButton.textContent = isLastStep ? "Finalizar" : "Siguiente";
+      if (completeButton) completeButton.textContent = "Finalizar";
+    };
+
+    translateButtons();
+
+    const observer = new MutationObserver(translateButtons);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isLastStep]);
+
   return (
     <>
       <FormWizard
@@ -104,7 +128,7 @@ const Register = () => {
             name="height"
             type="height"
             title="Tu altura"
-            placeholder="En centimetros"
+            placeholder="En centímetros"
           />
           <label htmlFor="objetive" className="form-label">¿Cuál es tu objetivo principal?</label>
           <select
@@ -166,9 +190,9 @@ const Register = () => {
             <option value="frutos secos">Frutos secos</option>
           </select>
         </FormWizard.TabContent>
-        <FormWizard.TabContent title="Last step" icon="ti-check">
-          <h1>Last Tab</h1>
-          <p>Some content for the last tab</p>
+        <FormWizard.TabContent title="Último paso" icon="ti-check">
+          <h1>Última pestaña</h1>
+          <p>Estás en buenas manos</p>
         </FormWizard.TabContent>
       </FormWizard>
       <style>{`
