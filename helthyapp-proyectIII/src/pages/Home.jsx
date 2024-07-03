@@ -158,7 +158,7 @@ const Home = () => {
             <div className="row g-0">
               <div className="col-md-4">
                 <img
-                  src="https://content.elmueble.com/medio/2023/03/31/croquetas-de-queso-y-calabacin_00000000_230821131907_600x802.jpg"
+                  src={recipe.urlImage}
                   className="img-fluid rounded-start"
                   alt={recipe.name}
                 />
