@@ -2,7 +2,7 @@
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Calendar, dayjsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import DatePicker, { registerLocale } from "react-datepicker";
@@ -12,11 +12,10 @@ import es from "date-fns/locale/es";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import "./../../src/index.css";
+import { createWeekPlan } from "../services/ChatService";
+import { AuthContext } from "../contexts/AuthContext";
 
 registerLocale("es", es);
-const locales = {
-  es,
-};
 
 const localizer = dayjsLocalizer(dayjs);
 
@@ -29,12 +28,45 @@ const events = [
 ];
 
 const CalendarPage = () => {
+  const { user } = useContext(AuthContext);
   const [newEvent, setNewEvent] = useState({
     title: "",
     start: "",
     end: "",
   });
   const [allEvents, setAllEvents] = useState(events);
+
+  const fetchWeeklyMealPlan = () => {
+    const startDate = new Date().toISOString();
+    const userPreferences = {
+      objetive: user.objetive,
+      ability: user.ability,
+      typeDiet: user.typeDiet,
+      alergic: user.alergic
+    };
+
+    createWeekPlan({startDate, userPreferences })
+    .then(response => {
+      const { weeklyMealPlan } = response;
+      const eventsFromPlan = weeklyMealPlan.days.map(dayPlan => {
+        return dayPlan.meals.map(meal => ({
+          title: meal.name,
+          start: dayjs(dayPlan.date).hour(dayjs(meal.time).hour()).minute(dayjs(meal.time).minute()).toDate(),
+          end: dayjs(dayPlan.date).hour(dayjs(meal.time).hour()).minute(dayjs(meal.time).minute() + 30).toDate() // Supongamos que cada comida dura 30 minutos
+        }));
+      }).flat();
+
+      setAllEvents(prevEvents => [...prevEvents, ...eventsFromPlan]);
+    })
+    .catch(error => {
+      console.error("Error fetching meal plan:", error);
+    });
+  };
+
+  const handleCreateWeeklyPlan = () => {
+      fetchWeeklyMealPlan();
+   
+  }
 
   //funcion para añadir nuevos eventos
   const handleAddEvent = () => {
@@ -84,6 +116,9 @@ const CalendarPage = () => {
       />
       <button className="btn btn-primary mt-3" onClick={handleAddEvent}>
         Añadir actividad
+      </button>
+      <button className="btn btn-primary mt-3" onClick={handleCreateWeeklyPlan}>
+        Crea un plan semanal
       </button>
       <Calendar
         localizer={localizer}

@@ -58,6 +58,13 @@ const Navbar = () => {
                 </Link>
               )}
             </li>
+            <li className="nav-item">
+              {user && (
+                <Link className="nav-link" aria-current="page" to="/calendar">
+                  Calendar
+                </Link>
+              )}
+            </li>
           </ul>
           {user && (
             <button onClick={logout} className="btn btn-custom ms-2">
