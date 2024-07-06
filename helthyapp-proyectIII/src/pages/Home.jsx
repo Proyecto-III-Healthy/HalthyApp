@@ -13,7 +13,7 @@ const Home = () => {
   const { user } = useContext(AuthContext);
   const [ingredients, setIngredients] = useState([]);
   const [recipes, setRecipes] = useState([]);
-  const [recipesApi, setRecipesApi] = useState(null);
+  const [recipesApi, setRecipesApi] = useState([]);
   const [loadingApi, setLoadingApi] = useState(false);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -77,7 +77,7 @@ const Home = () => {
     setLoadingApi(true);
     createChat(ingredients)
       .then((recipesApiRes) => {
-        setRecipesApi(recipesApiRes);
+        setRecipesApi(recipesApiRes.createdRecipes);
       })
       .catch((err) => console.error(err))
       .finally(() => setLoadingApi(false));
@@ -98,10 +98,12 @@ const Home = () => {
         <PacmanLoading />
       ) : (
         user && (
-          <h3>
-            Receta API:
-            {recipesApi?.createdRecipe.name}
-          </h3>
+          <div>
+            <h3>Aqui tienes tus recetas</h3>
+            {recipesApi.map(recipe => (
+              <h4 key={recipe._id}>HOla:{recipe.name}</h4>
+        ))}
+          </div>
         )
       )}
 
