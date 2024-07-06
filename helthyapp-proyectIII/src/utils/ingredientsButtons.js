@@ -35,8 +35,8 @@ export const INGREDIENTS_VALUES = [
     iconComponent: GiSteak,
   },
   {
-    text: "Atún",
-    value: "atún",
+    text: "Atun",
+    value: "atun",
     iconComponent: GiCannedFish,
   },
   {
