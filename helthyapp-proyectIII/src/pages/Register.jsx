@@ -46,12 +46,19 @@ const Register = () => {
 
   useEffect(() => {
     const translateButtons = () => {
-      const backButton = document.querySelector(".wizard-footer-left .wizard-btn");
-      const nextButton = document.querySelector(".wizard-footer-right .wizard-btn");
-      const completeButton = document.querySelector(".wizard-complete .wizard-btn");
+      const backButton = document.querySelector(
+        ".wizard-footer-left .wizard-btn"
+      );
+      const nextButton = document.querySelector(
+        ".wizard-footer-right .wizard-btn"
+      );
+      const completeButton = document.querySelector(
+        ".wizard-complete .wizard-btn"
+      );
 
       if (backButton) backButton.textContent = "Atrás";
-      if (nextButton) nextButton.textContent = isLastStep ? "Finalizar" : "Siguiente";
+      if (nextButton)
+        nextButton.textContent = isLastStep ? "Finalizar" : "Siguiente";
       if (completeButton) completeButton.textContent = "Finalizar";
     };
 
@@ -130,7 +137,9 @@ const Register = () => {
             title="Tu altura"
             placeholder="En centímetros"
           />
-          <label htmlFor="objetive" className="form-label">¿Cuál es tu objetivo principal?</label>
+          <label htmlFor="objetive" className="form-label">
+            ¿Cuál es tu objetivo principal?
+          </label>
           <select
             className="form-select"
             aria-label="Default select example"
@@ -157,7 +166,9 @@ const Register = () => {
             <option selected>Tu habilidad en la cocina</option>
             <option value="bajo">Bajo: El colacao cuenta como cocinar</option>
             <option value="medio">Medio: Las lentejas no se me queman</option>
-            <option value="avanzado">Avanzado: David muñoz a mi lado es un mindundi</option>
+            <option value="avanzado">
+              Avanzado: David muñoz a mi lado es un mindundi
+            </option>
           </select>
           <select
             className="form-select mb-4"
@@ -168,12 +179,16 @@ const Register = () => {
           >
             <option selected>Tipo de dieta</option>
             <option value="omnivoro">Omnivoro: como carne y casi todo</option>
-            <option value="flexitariano">Flexitariano: no excluyo la carne del todo </option>
+            <option value="flexitariano">
+              Flexitariano: no excluyo la carne del todo{" "}
+            </option>
             <option value="vegetariano">Vegetariano</option>
             <option value="vegano">Vegano</option>
             <option value="otra">Otra</option>
           </select>
-          <label htmlFor="objetive" className="form-label">¿Eres alérgico o intelerante a algún alimento?</label>
+          <label htmlFor="objetive" className="form-label">
+            ¿Eres alérgico o intelerante a algún alimento?
+          </label>
           <select
             className="form-select mb-4"
             aria-label="Default select example"
@@ -190,9 +205,13 @@ const Register = () => {
             <option value="frutos secos">Frutos secos</option>
           </select>
         </FormWizard.TabContent>
-        <FormWizard.TabContent title="Último paso" icon="ti-check">
-          <h1>Última pestaña</h1>
-          <p>Estás en buenas manos</p>
+        <FormWizard.TabContent title="Validación" icon="ti-check">
+          <h1>¡Enhorabuena! ¡Has completado todos los pasos!</h1>
+          <p>¡Estás en buenas manos! y no nos lavamos las manos a menudo</p>
+          <quote>
+            "Las buenas recetas son como los buenos amigos: hacen que la vida
+            sea más deliciosa"
+          </quote>
         </FormWizard.TabContent>
       </FormWizard>
       <style>{`
