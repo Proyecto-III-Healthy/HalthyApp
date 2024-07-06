@@ -63,7 +63,7 @@ function RecipeDetails() {
       <h2 className="h2">{recipe.name}</h2>
       </div>
       <img
-        src="https://content.elmueble.com/medio/2023/03/31/croquetas-de-queso-y-calabacin_00000000_230821131907_600x802.jpg"
+        src={recipe.urlImage}
         // src={recipe.imageUrl}
         alt={recipe.name}
         style={{
