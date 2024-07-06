@@ -11,9 +11,15 @@ const Navbar = () => {
       data-bs-theme="dark"
     >
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/" style={{ color: '#83A580' }}>
-          Healthy App
+        <Link className="navbar-brand" to="/" style={{ color: "#83A580" }}>
+          <img
+            src="public/images/LogoTextTransparent.png"
+            className="img-fluid, max-width: 75%;"
+            style={{ height: 55, width: 135, borderRadius: 15 }}
+            alt="Healthy App"
+          />
         </Link>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -22,7 +28,7 @@ const Navbar = () => {
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
-          style={{ borderColor: '#83A580' }} 
+          style={{ borderColor: "#83A580" }}
         >
           <span className="navbar-toggler-icon"></span>
         </button>

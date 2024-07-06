@@ -85,7 +85,7 @@ const Home = () => {
 
   return (
     <div className="container mt-5">
-      <h1>Home</h1>
+      <h1>Bienvenido</h1>
       <input
         className="form-control me-2 mb-3"
         type="search"
@@ -94,23 +94,16 @@ const Home = () => {
         style={{ borderColor: "#83A580" }}
         onChange={handleSearchInput}
       />
-      {loadingApi ? (
-        <PacmanLoading />
-      ) : (
-        user && (
-          <div>
-            <h3>Aqui tienes tus recetas</h3>
-            {recipesApi.map(recipe => (
-              <h4 key={recipe._id}>HOla:{recipe.name}</h4>
-        ))}
-          </div>
-        )
-      )}
-
+      {loadingApi ? <PacmanLoading /> : ""}
       {user && (
         <form
           onSubmit={onSubmit}
-          style={{ display: "flex", flexWrap: "wrap", gap: "10px", justifyContent: "center" }}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+            justifyContent: "center",
+          }}
         >
           {INGREDIENTS_VALUES.map((ingredient) => {
             const IconComponent = ingredient.iconComponent;

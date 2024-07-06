@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PacmanLoader } from "react-spinners";
+import PacmanLoading from "../components/PacmanLoading/PacmanLoading";
 import { getFavorites } from "../services/RecipesService";
 import { Link } from "react-router-dom";
 import "../index.css";
@@ -27,7 +27,8 @@ const Profile = () => {
           height: "100vh",
         }}
       >
-        <PacmanLoader color="#83A580" />
+         <PacmanLoading />
+
       </div>
     );
   }
@@ -69,9 +70,9 @@ const Profile = () => {
         </>
       ) : (
         <div style={{ textAlign: "center", marginTop: "20px" }}>
-          <h2>Aún no tienes recetas favoritas</h2>
+          <h2>Aún no has guardado recetas como favoritas</h2>
           <p>
-            <Link to="/">Volver a la página principal</Link>
+            <Link to="/">Volver a la página principal</Link> para añadir recetas
           </p>
         </div>
       )}

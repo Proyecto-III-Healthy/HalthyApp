@@ -1,12 +1,17 @@
 import React from "react";
 import "./PacmanLoading.css";
-import { PacmanLoader } from "react-spinners";
+
+
 const PacmanLoading = () => {
   return (
     <div className="PacmanLoading">
-      <div className="center">
-        <PacmanLoader color="#83A580" />
-      </div>
+      <img 
+        src="/images/Organic.gif"
+        className="img-fluid"
+        alt="Healthy App gif"
+      />
+     {/*} <PacmanLoader color={"#36D7B7"} loading={true} size={50} /> */}
+     
     </div>
   );
 };
