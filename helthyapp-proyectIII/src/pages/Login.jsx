@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { loginService } from "../services/UserService";
 import { AuthContext } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
-import "../index.css"; 
+import "../index.css";
 
 const Login = () => {
   const { login, user: currentUser } = useContext(AuthContext);
@@ -39,11 +39,11 @@ const Login = () => {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="mt-3 mb-2">
+      <h2 style={{ textAlign: "center" }}>Iniciar Sesión</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="email" className="form-label">
+          <label htmlFor="email" className="form-label form-label-center">
             Email
           </label>
           <input
@@ -51,17 +51,14 @@ const Login = () => {
             onChange={handleInputChange}
             value={user.email}
             type="email"
-            className="form-control"
+            className="form-control form-control-custom"
             id="email"
             required
             placeholder="Add a email..."
-            style={{ borderColor: "#83A580" }}
-
           />
         </div>
-
         <div className="mb-3">
-          <label htmlFor="password" className="form-label">
+          <label htmlFor="password" className="form-label form-label-center">
             Password
           </label>
           <input
@@ -69,17 +66,22 @@ const Login = () => {
             onChange={handleInputChange}
             value={user.password}
             type="password"
-            className="form-control"
+            className="form-control form-control-custom"
             id="password"
             required
             placeholder="Add a password..."
-            style={{ borderColor: "#83A580" }}
           />
         </div>
         {error && <p className="text-danger">{error.message}</p>}
-        <button type="submit" className="btn btn-custom">
-          Login
-        </button>
+        <div className="btn-container">
+          <button 
+            type="submit" 
+            className="btn btn-custom btn-lg px-5"
+          >
+            Entrar
+          </button>
+      
+        </div>
       </form>
     </div>
   );

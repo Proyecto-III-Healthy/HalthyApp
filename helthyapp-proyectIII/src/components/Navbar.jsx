@@ -13,9 +13,9 @@ const Navbar = () => {
       <div className="container-fluid">
         <Link className="navbar-brand" to="/" style={{ color: "#83A580" }}>
           <img
-            src="public/images/LogoTextTransparent.png"
-            className="img-fluid, max-width: 75%;"
-            style={{ height: 55, width: 135, borderRadius: 15 }}
+            src="public/Logo-Healthy2.png"
+            className="img-fluid"
+            style={{ width: "auto", height: "70px" }}
             alt="Healthy App"
           />
         </Link>
@@ -35,48 +35,41 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link className="nav-link" aria-current="page" to="/">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
               {!user && (
                 <Link className="nav-link" aria-current="page" to="/register">
-                  Register
+                  Registro
                 </Link>
               )}
             </li>
             <li className="nav-item">
               {!user && (
                 <Link className="nav-link" aria-current="page" to="/login">
-                  Login
+                  Iniciar sesión
                 </Link>
               )}
             </li>
-          </ul>
-        </div>
-        <div className="container-fluid d-flex">
-          <ul className="navbar-nav">
             <li className="nav-item">
               {user && (
                 <Link className="nav-link" aria-current="page" to="/profile">
-                  Profile
+                  Mi perfil
                 </Link>
               )}
             </li>
             <li className="nav-item">
               {user && (
                 <Link className="nav-link" aria-current="page" to="/calendar">
-                  Calendar
+                  Calendario
                 </Link>
               )}
             </li>
+            <li className="nav-item">
+              {user && (
+                <button onClick={logout} className="btn btn-custom ms-2">
+                  Cerrar Sesión
+                </button>
+              )}
+            </li>
           </ul>
-          {user && (
-            <button onClick={logout} className="btn btn-custom ms-2">
-              Logout
-            </button>
-          )}
         </div>
       </div>
     </nav>
