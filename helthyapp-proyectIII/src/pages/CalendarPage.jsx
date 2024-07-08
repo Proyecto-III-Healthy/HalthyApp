@@ -12,8 +12,9 @@ import es from "date-fns/locale/es";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import "./../../src/index.css";
-import { createWeekPlan } from "../services/ChatService";
+import { createDayPlan } from "../services/ChatService";
 import { AuthContext } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 registerLocale("es", es);
 
@@ -29,6 +30,7 @@ const events = [
 
 const CalendarPage = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [newEvent, setNewEvent] = useState({
     title: "",
     start: "",
@@ -36,42 +38,58 @@ const CalendarPage = () => {
   });
   const [allEvents, setAllEvents] = useState(events);
 
-  const fetchWeeklyMealPlan = () => {
+  const fetchDailyMealPlan = () => {
     const startDate = new Date().toISOString();
     const userPreferences = {
       objetive: user.objetive,
       ability: user.ability,
       typeDiet: user.typeDiet,
-      alergic: user.alergic
+      alergic: user.alergic,
     };
 
-    createWeekPlan({startDate, userPreferences })
-    .then(response => {
-      const { weeklyMealPlan } = response;
-      const eventsFromPlan = weeklyMealPlan.days.map(dayPlan => {
-        return dayPlan.meals.map(meal => ({
-          title: meal.name,
-          start: dayjs(dayPlan.date).hour(dayjs(meal.time).hour()).minute(dayjs(meal.time).minute()).toDate(),
-          end: dayjs(dayPlan.date).hour(dayjs(meal.time).hour()).minute(dayjs(meal.time).minute() + 30).toDate() // Supongamos que cada comida dura 30 minutos
-        }));
-      }).flat();
+    createDayPlan({ startDate, userPreferences })
+      .then((response) => {
+        console.log(response);
+        const { dailyMealPlan } = response;
+        console.log(dailyMealPlan);
+        if (!dailyMealPlan.date) {
+          console.error("Error: 'date' is undefined in the response");
+          return;
+        }
+        const eventsFromPlan = dailyMealPlan.meals.map((meal) => ({
+              recipeId: meal.meal.recipe._id,
+              title: meal.meal.name,
+              start: dayjs(dailyMealPlan.date)
+                .hour(dayjs(meal.time).hour())
+                .minute(dayjs(meal.time).minute())
+                .toDate(),
+              end: dayjs(dailyMealPlan.date)
+                .hour(dayjs(meal.time).hour())
+                .minute(dayjs(meal.time).minute() + 30)
+                .toDate(), // Supongamos que cada comida dura 30 minutos
+            }));
 
-      setAllEvents(prevEvents => [...prevEvents, ...eventsFromPlan]);
-    })
-    .catch(error => {
-      console.error("Error fetching meal plan:", error);
-    });
+        setAllEvents((prevEvents) => [...prevEvents, ...eventsFromPlan]);
+      })
+      .catch((error) => {
+        console.error("Error fetching meal plan:", error);
+      });
   };
 
-  const handleCreateWeeklyPlan = () => {
-      fetchWeeklyMealPlan();
-   
-  }
+  const handleCreateDailyPlan = () => {
+    fetchDailyMealPlan();
+  };
 
   //funcion para añadir nuevos eventos
   const handleAddEvent = () => {
     setAllEvents([...allEvents, newEvent]);
   };
+
+  // Función para manejar el clic en un evento
+  const handleSelectEvent = (event) => {
+    navigate(`/recipes/${event.recipeId}`); // Navega a la página de detalles de la receta
+  };
+
   return (
     <div>
       <h2>Añade una actividad</h2>
@@ -117,17 +135,26 @@ const CalendarPage = () => {
       <button className="btn btn-primary mt-3" onClick={handleAddEvent}>
         Añadir actividad
       </button>
-      <button className="btn btn-primary mt-3" onClick={handleCreateWeeklyPlan}>
+      <button className="btn btn-primary mt-3" onClick={handleCreateDailyPlan}>
         Crea un plan semanal
       </button>
       <Calendar
         localizer={localizer}
-        events={allEvents}
+        events={allEvents.filter(
+          (event) => event.title && event.start && event.end
+        )}
         startAccessor="start"
         endAccessor="end"
         style={{ height: 500, margin: "50px" }}
         culture="es"
-        
+        views={[ "week", "day"]} // Only show week and day views
+        messages={{
+          month: "Mes",
+          week: "Semana",
+          day: "Día",
+        }}
+        defaultView='day'
+        onSelectEvent={handleSelectEvent} // Agrega el manejador de eventos
       />
     </div>
   );
