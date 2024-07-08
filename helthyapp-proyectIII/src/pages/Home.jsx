@@ -2,11 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { createChat } from "../services/ChatService";
 import { AuthContext } from "../contexts/AuthContext";
 import { getRecipes } from "../services/RecipesService";
-
 import "../index.css";
 import { Link } from "react-router-dom";
 import PacmanLoading from "../components/PacmanLoading/PacmanLoading";
-
+import { BsSearch } from "react-icons/bs";
 import { INGREDIENTS_VALUES } from "../utils/ingredientsButtons";
 
 const Home = () => {
@@ -84,16 +83,28 @@ const Home = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h1>Bienvenido</h1>
-      <input
-        className="form-control me-2 mb-3"
-        type="search"
-        placeholder="Escribe aquí los ingredientes"
-        aria-label="Search"
-        style={{ borderColor: "#83A580" }}
-        onChange={handleSearchInput}
-      />
+    <div className="container mt-3">
+      <h2>Bienvenido</h2>
+      <div style={{ position: "relative" }}>
+        <input
+          className="form-control me-2 mb-3"
+          type="search"
+          placeholder="Escribe aquí los ingredientes"
+          aria-label="Search"
+          style={{ borderColor: "#83A580" }}
+          onChange={handleSearchInput}
+        />
+        <BsSearch
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "8px",
+            fontSize: "20px",
+            color: "#83A580",
+          }}
+        />
+      </div>
+
       {loadingApi ? <PacmanLoading /> : ""}
       {user && (
         <form
@@ -111,7 +122,7 @@ const Home = () => {
               <button
                 key={ingredient.value}
                 type="button"
-                className="btn btn-custom"
+                className="btn btn-custom-ingredients"
                 value={ingredient.value}
                 onClick={handleIngredient}
               >
@@ -128,12 +139,11 @@ const Home = () => {
               </button>
             );
           })}
-          <div className="row w-100 btn-lg">
+          <div className="row w-100 btn-lg-custom">
             <div className="col d-flex justify-content-center mt-3">
               <button
                 type="submit"
-                className="btn btn-custom btn-lg px-5"
-                style={{ borderColor: "#00ff6a", color: "rgb(3 120 114)" }}
+                className="btn btn-custom btn-padding-custom"
               >
                 Enviar
               </button>

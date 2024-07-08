@@ -41,7 +41,7 @@ const Register = () => {
   const tabChanged = ({ prevIndex, nextIndex }) => {
     console.log("prevIndex", prevIndex);
     console.log("nextIndex", nextIndex);
-    setIsLastStep(nextIndex === 4); // Aquí '3' es el índice de la última pestaña
+    setIsLastStep(nextIndex === 4); 
   };
 
   useEffect(() => {

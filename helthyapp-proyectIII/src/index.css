@@ -1,3 +1,16 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif;
+}
+
 .h2 {
   text-align: center;
   background-color: transparent;
@@ -5,7 +18,14 @@
   box-shadow: 0 0 10px #83a580;
   display: inline-block;
 }
+.form-label-center {
+  display: block;
+  text-align: center;
+}
 
+.form-control-custom {
+  border-color: #83a580;
+}
 .custom-datepicker__input {
   width: 100%;
   padding: 8px;
@@ -36,7 +56,12 @@
 }
 .btn-custom {
   background-color: #83a580;
-  border-color: #83a580;
+  border-color: #00ff6a;
+  color: white;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.btn-custom-ingredients {
+  background-color: #83a580;
   color: white;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
@@ -44,6 +69,22 @@
 .btn-custom:hover {
   background-color: #83a580;
   border-color: #83a580;
+}
+
+.btn-container {
+  text-align: center;
+}
+
+.btn-lg-custom {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.btn-padding-custom {
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 
 .scroll-to-top {

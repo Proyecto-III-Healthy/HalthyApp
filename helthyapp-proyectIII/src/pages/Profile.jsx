@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PacmanLoading from "../components/PacmanLoading/PacmanLoading";
 import { getFavorites } from "../services/RecipesService";
+
 import { Link } from "react-router-dom";
 import "../index.css";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Profile = () => {
+  const { user } = useContext(AuthContext);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,17 +30,33 @@ const Profile = () => {
           height: "100vh",
         }}
       >
-         <PacmanLoading />
-
+        <PacmanLoading />
       </div>
     );
   }
+  
+
+  const generateAvatarUrl = (name) => {
+    const initial = name ? name.trim().charAt(0).toUpperCase() : "";
+    return `https://ui-avatars.com/api/?name=${initial}&size=100`;
+  };
 
   return (
     <div className="container mt-5">
+      <h4 className="h2 mt-2 mb-3">Mis datos personales</h4>
+      <div className="text-center">
+        <img
+          src={generateAvatarUrl(user.name)}
+          alt="Avatar"
+          className="rounded-circle"
+          style={{ width: "100px", height: "100px", objectFit: "cover"}}
+        />
+        <h2 className="mt-3">{user.name}</h2>
+        <p>{user.email}</p>
+      </div>
       {favorites.length > 0 ? (
         <>
-          <h2 className="h2">Mis Recetas Favoritas</h2>
+          <h4 className="h2 mt-2 mb-3">Mis Recetas Favoritas</h4>
           {favorites.map((recipe) => (
             <div
               className="card mb-3"
