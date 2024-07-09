@@ -5,7 +5,7 @@ const INVALID_STATUS_CODES = [401];
 
 const createHttp = (useAccessToken = false) => {
   const http = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL:import.meta.env.VITE_API_URL
   });
 
   if (useAccessToken) {
