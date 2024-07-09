@@ -9,3 +9,7 @@ export const createChat = (ingredients) => {
 export const createDayPlan = (data) => {
   return http.post("/dayPlan", data);
 };
+
+export const getDayPlans = () => {
+  return http.get("/userDayPlans");
+};

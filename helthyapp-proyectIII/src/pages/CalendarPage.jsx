@@ -12,9 +12,9 @@ import es from "date-fns/locale/es";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import "./../../src/index.css";
-import { createDayPlan } from "../services/ChatService";
+import { createDayPlan, getDayPlans } from "../services/ChatService";
 import { AuthContext } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 registerLocale("es", es);
 
@@ -23,14 +23,14 @@ const localizer = dayjsLocalizer(dayjs);
 const events = [
   {
     title: "Hora de entrenar",
-    start: dayjs("2024-06-28T12:00:00").toDate(),
-    end: dayjs("2024-06-28T13:00:00").toDate(),
+    start: dayjs("2024-07-09T12:00:00").toDate(),
+    end: dayjs("2024-07-09T13:00:00").toDate(),
   },
 ];
 
 const CalendarPage = () => {
   const { user } = useContext(AuthContext);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [newEvent, setNewEvent] = useState({
     title: "",
     start: "",
@@ -46,8 +46,8 @@ const CalendarPage = () => {
       typeDiet: user.typeDiet,
       alergic: user.alergic,
     };
-
-    createDayPlan({ startDate, userPreferences })
+    const currentUserId = user._id;
+    createDayPlan({ startDate, userPreferences, currentUserId })
       .then((response) => {
         console.log(response);
         const { dailyMealPlan } = response;
@@ -57,17 +57,17 @@ const CalendarPage = () => {
           return;
         }
         const eventsFromPlan = dailyMealPlan.meals.map((meal) => ({
-              recipeId: meal.meal.recipe._id,
-              title: meal.meal.name,
-              start: dayjs(dailyMealPlan.date)
-                .hour(dayjs(meal.time).hour())
-                .minute(dayjs(meal.time).minute())
-                .toDate(),
-              end: dayjs(dailyMealPlan.date)
-                .hour(dayjs(meal.time).hour())
-                .minute(dayjs(meal.time).minute() + 30)
-                .toDate(), // Supongamos que cada comida dura 30 minutos
-            }));
+          recipeId: meal.meal.recipe._id,
+          title: meal.meal.name,
+          start: dayjs(dailyMealPlan.date)
+            .hour(dayjs(meal.time).hour())
+            .minute(dayjs(meal.time).minute())
+            .toDate(),
+          end: dayjs(dailyMealPlan.date)
+            .hour(dayjs(meal.time).hour())
+            .minute(dayjs(meal.time).minute() + 30)
+            .toDate(), // Supongamos que cada comida dura 30 minutos
+        }));
 
         setAllEvents((prevEvents) => [...prevEvents, ...eventsFromPlan]);
       })
@@ -75,6 +75,47 @@ const CalendarPage = () => {
         console.error("Error fetching meal plan:", error);
       });
   };
+
+  useEffect(() => {
+    getDayPlans()
+      .then((dayPlansDB) => {
+        const plainMails = dayPlansDB
+          .reduce((acc, plan) => {
+            console.log(plan);
+            return [
+              ...acc,
+              ...plan.meals.map((meal) => ({ ...meal, date: plan.date })),
+            ];
+          }, [])
+          .map((meal) => ({
+            recipeId: meal.meal.recipe._id,
+            title: meal.meal.name,
+            start: dayjs(dayPlansDB.date)
+              .hour(dayjs(meal.time).hour())
+              .minute(dayjs(meal.time).minute())
+              .toDate(),
+            end: dayjs(dayPlansDB.date)
+              .hour(dayjs(meal.time).hour())
+              .minute(dayjs(meal.time).minute() + 60)
+              .toDate(), // Supongamos que cada comida dura 30 minutos
+          }));
+
+        setAllEvents(plainMails);
+
+        console.log(plainMails);
+        // dayPlansDB.map((plan) => {
+
+        //   const eventsFromPlan = plan.meals.map((meal) => ({
+
+        //   }));
+        //   console.log("eventsFromPlan",eventsFromPlan)
+        //   setAllEvents(eventsFromPlan);
+
+        // })
+        // console.log("allEvents",allEvents)
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   const handleCreateDailyPlan = () => {
     fetchDailyMealPlan();
@@ -85,11 +126,16 @@ const CalendarPage = () => {
     setAllEvents([...allEvents, newEvent]);
   };
 
-  // Función para manejar el clic en un evento
-  const handleSelectEvent = (event) => {
-    navigate(`/recipes/${event.recipeId}`); // Navega a la página de detalles de la receta
-  };
-
+  const Event = ({ event }) => (
+    <span>
+      {event.title}
+      {event.recipeId && (
+        <Link to={`/recipes/${event.recipeId}`} className="btn btn-light">
+          <span> Ver receta</span>
+        </Link>
+      )}
+    </span>
+  );
   return (
     <div>
       <h2>Añade una actividad</h2>
@@ -147,14 +193,17 @@ const CalendarPage = () => {
         endAccessor="end"
         style={{ height: 500, margin: "50px" }}
         culture="es"
-        views={[ "week", "day"]} // Only show week and day views
+        views={["week", "day"]} // Only show week and day views
         messages={{
           month: "Mes",
           week: "Semana",
           day: "Día",
         }}
-        defaultView='day'
-        onSelectEvent={handleSelectEvent} // Agrega el manejador de eventos
+        defaultView="day"
+        //onSelectEvent={handleSelectEvent} // Agrega el manejador de eventos
+        components={{
+          event: Event,
+        }}
       />
     </div>
   );
